@@ -19,6 +19,6 @@ set ( CPACK_DEBIAN_PACKAGE_MAINTAINER "Alexander Chumakov" )
 set ( CPACK_GENERATOR "DEB" )
 set ( CPACK_DEB_COMPONENT_INSTALL ON )
 
-set ( CPACK_COMPONENTS_ALL ipc-server ipc-server-library )
+set ( CPACK_COMPONENTS_ALL ipc-server ipc-server-library ipc-server-test )
 
 include ( CPack )
