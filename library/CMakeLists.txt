@@ -9,6 +9,6 @@ set ( IPC_LIBRARY_SOURCE_LIST
 
 add_library ( ipc-server-library SHARED ${IPC_LIBRARY_SOURCE_LIST} )
 
-#target_link_libraries ( ipc-server-library )
+target_link_libraries ( ipc-server-library pthread )
 
 install ( TARGETS ipc-server-library DESTINATION lib COMPONENT ipc-server-library )
