@@ -49,6 +49,7 @@ void ipc_channel_free(IpcChannel *self)
 
 void ipc_channel_stop(IpcChannel *self)
 {
+  IPC_LOG_DEBUG("Request to stop the IPC channel");
 }
 
 void ipc_channel_start(IpcChannel *self)

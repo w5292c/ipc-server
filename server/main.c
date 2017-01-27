@@ -22,19 +22,42 @@
  * SOFTWARE.
  */
 #include "ipc-channel.h"
+#include "ipc-logging.h"
 #include "ipc-library-api.h"
+
+#include <signal.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+static bool TheContinueFlag = false;
+
+static void sighandler(int signum);
 
 int main(int argc, char **argv)
 {
   /* Initialization */
+  TheContinueFlag = true;
+  signal(SIGINT, sighandler);
   ipc_library_init();
   IpcChannel *const ipcChannel = ipc_channel_new();
   ipc_channel_start(ipcChannel);
+
+  while (TheContinueFlag) {
+    sleep(1);
+  }
 
   /* Deinitialization */
   ipc_channel_stop(ipcChannel);
 
   /* Cleanup */
   ipc_channel_free(ipcChannel);
+
+  IPC_LOG_DEBUG("Finished.");
   return 0;
+}
+
+void sighandler(int signum)
+{
+  IPC_LOG_DEBUG("Terminating");
+  TheContinueFlag = false;
 }
