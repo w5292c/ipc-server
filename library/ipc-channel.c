@@ -24,11 +24,17 @@
 
 #include "ipc-channel.h"
 
+#include "ipc-common.h"
+#include "ipc-logging.h"
+
 #include <stdlib.h>
+#include <pthread.h>
 
 typedef struct _IpcChannel {
-  int dummy;
+  pthread_t channelTId;
 } IpcChannel;
+
+static void *ipc_channel_thread(void *arg);
 
 IpcChannel *ipc_channel_new(void)
 {
@@ -39,4 +45,27 @@ IpcChannel *ipc_channel_new(void)
 void ipc_channel_free(IpcChannel *self)
 {
   free(self);
+}
+
+void ipc_channel_stop(IpcChannel *self)
+{
+}
+
+void ipc_channel_start(IpcChannel *self)
+{
+  if (self->channelTId) {
+    IPC_LOG_ERROR("Already started");
+    return;
+  }
+
+  IPC_LOG_DEBUG("Starting channel engine...");
+  IPC_LOG_DEBUG("Starting channel engine: done.");
+}
+
+void *ipc_channel_thread(void *data)
+{
+  IpcChannel *const self = (IpcChannel *)data;
+  IPC_UNUSED(self);
+
+  return NULL;
 }

@@ -34,6 +34,9 @@ typedef struct _IpcSession IpcSession;
 IpcSession *ipc_session_new(void);
 void ipc_session_free(IpcSession *self);
 
+void ipc_session_stop(IpcSession *self);
+void ipc_session_start(IpcSession *self);
+
 #ifdef __cplusplus
 } /* extern "C" { */
 #endif /* __cplusplus */

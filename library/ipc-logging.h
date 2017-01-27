@@ -21,24 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#ifndef W5292C_IPC_CHANNEL_H
-#define W5292C_IPC_CHANNEL_H
+#ifndef W5292C_IPC_LOGGING_H
+#define W5292C_IPC_LOGGING_H
 
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-typedef struct _IpcChannel IpcChannel;
+typedef enum {
+  IPC_LOG_LEVEL_DEBUG   = 0,
+  IPC_LOG_LEVEL_INFO    = 1,
+  IPC_LOG_LEVEL_WARNING = 2,
+  IPC_LOG_LEVEL_ERROR   = 3,
+  IPC_LOG_LEVEL_FATAL   = 4,
+} IPC_LOG_LEVEL;
 
-IpcChannel *ipc_channel_new(void);
-void ipc_channel_free(IpcChannel *self);
+#define IPC_LOG_DEBUG(format, ...)   ipc_log_out(IPC_LOG_LEVEL_DEBUG, \
+                                       __LINE__, __func__, format, ##__VA_ARGS__)
+#define IPC_LOG_INFO(format, ...)    ipc_log_out(IPC_LOG_LEVEL_INFO, \
+                                       __LINE__, __func__, format, ##__VA_ARGS__)
+#define IPC_LOG_WARNING(format, ...) ipc_log_out(IPC_LOG_LEVEL_WARNING, \
+                                       __LINE__, __func__, format, ##__VA_ARGS__)
+#define IPC_LOG_ERROR(format, ...)   ipc_log_out(IPC_LOG_LEVEL_ERROR, \
+                                       __LINE__, __func__, format, ##__VA_ARGS__)
+#define IPC_LOG_FATAL(format, ...)   ipc_log_out(IPC_LOG_LEVEL_FATAL, \
+                                       __LINE__, __func__, format, ##__VA_ARGS__)
 
-void ipc_channel_stop(IpcChannel *self);
-void ipc_channel_start(IpcChannel *self);
+void ipc_log_out(int level, int line, const char *func, const char *format, ...);
 
 #ifdef __cplusplus
 } /* extern "C" { */
 #endif /* __cplusplus */
 
-#endif /* W5292C_IPC_CHANNEL_H */
+#endif /* W5292C_IPC_LOGGING_H */

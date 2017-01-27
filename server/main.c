@@ -21,11 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+#include "ipc-channel.h"
 #include "ipc-library-api.h"
 
 int main(int argc, char **argv)
 {
+  /* Initialization */
   ipc_library_init();
+  IpcChannel *const ipcChannel = ipc_channel_new();
+  ipc_channel_start(ipcChannel);
 
+  /* Deinitialization */
+  ipc_channel_stop(ipcChannel);
+
+  /* Cleanup */
+  ipc_channel_free(ipcChannel);
   return 0;
 }

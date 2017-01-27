@@ -21,12 +21,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-#include "ipc-library-api.h"
-
 #include "ipc-logging.h"
 
-void ipc_library_init(void)
+#include <time.h>
+#include <stdarg.h>
+
+void ipc_log_out(int level, int line, const char *func, const char *format, ...)
 {
-  IPC_LOG_DEBUG("Ipc library initialization");
+  char levelMarker;
+  FILE *stream = stderr;
+
+  switch (level) {
+  case IPC_LOG_LEVEL_DEBUG:
+    stream = stdout;
+    levelMarker = 'D';
+    break;
+  case IPC_LOG_LEVEL_INFO:
+    stream = stdout;
+    levelMarker = 'I';
+    break;
+  case IPC_LOG_LEVEL_WARNING:
+    levelMarker = 'W';
+    break;
+  case IPC_LOG_LEVEL_ERROR:
+    levelMarker = 'E';
+    break;
+  case IPC_LOG_LEVEL_FATAL:
+    levelMarker = 'F';
+    break;
+  default:
+    levelMarker = 'U';
+    break;
+  }
+
+  time_t logTime = 0;
+  time(&logTime);
+
+  struct tm logTimeStruct;
+  gmtime_r(&logTime, &logTimeStruct);
+  fprintf(stream, "[%2.2d:%2.2d:%2.2d]",
+    logTimeStruct.tm_hour, logTimeStruct.tm_min, logTimeStruct.tm_sec);
+
+  fprintf(stream, "[%c]", levelMarker);
+
+  fprintf(stream, "[%s:%d] ", func, line);
+
+  va_list arg;
+  va_start(arg, format);
+  vfprintf(stream, format, arg);
+
+  fprintf(stream, "\n");
 }

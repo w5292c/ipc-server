@@ -24,10 +24,13 @@
 
 #include "ipc-session.h"
 
+#include "ipc-common.h"
+
 #include <stdlib.h>
+#include <pthread.h>
 
 typedef struct _IpcSession {
-  int dummy;
+  pthread_t sessionTId;
 } IpcSession;
 
 IpcSession *ipc_session_new(void)
@@ -39,4 +42,14 @@ IpcSession *ipc_session_new(void)
 void ipc_session_free(IpcSession *self)
 {
   free(self);
+}
+
+void ipc_session_stop(IpcSession *self)
+{
+  IPC_UNUSED(self);
+}
+
+void ipc_session_start(IpcSession *self)
+{
+  IPC_UNUSED(self);
 }

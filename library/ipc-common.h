@@ -29,6 +29,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#define IPC_UNUSED(arg) ((void)arg)
+
 #ifdef __cplusplus
 } /* extern "C" { */
 #endif /* __cplusplus */
